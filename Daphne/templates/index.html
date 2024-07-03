@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>股票資訊查詢系統</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>股票資訊查詢系統</h1>
+        <h3>請輸入欲查詢的股票代碼</h3>
+        <form action="/" method="POST" class="form-group">
+            {% for i in range(1, 6) %}
+            <div class="form-group">
+                <label for="stock_code_{{ i }}">股票代碼 {{ i }}</label>
+                <input type="text" id="stock_code_{{ i }}" name="stock_code_{{ i }}" placeholder="股票代碼">
+            </div>
+            {% endfor %}
+            <input type="submit" value="Search" class="submit-button">
+        </form>
+
+        {% if stock_data_list %}
+        <h2>以下為你所查詢的股票代碼:</h2>
+        <table id="stock-table">
+            <thead>
+                <tr>
+                    <th>股票代碼</th>
+                    <th>公司名稱</th>
+                    <th>成交量</th>
+                    <th>最終價</th>
+                    <th>開盤價</th>
+                    <th>最高價</th>
+                    <th>最低價</th>
+                    <th>昨日收盤價</th>
+                    <th>漲跌</th>
+                    <th>漲跌幅</th>
+                    <th>更新時間</th>
+                </tr>
+            </thead>
+            <tbody id="stock-table-body">
+                {% for stock_data in stock_data_list %}
+                <tr>
+                    <td>{{ stock_data.code }}</td>
+                    <td>{{ stock_data.company_name }}</td>
+                    <td>{{ stock_data.volume }}</td>
+                    <td>{{ stock_data.final_price }}</td>
+                    <td>{{ stock_data.open_price }}</td>
+                    <td>{{ stock_data.high_price }}</td>
+                    <td>{{ stock_data.low_price }}</td>
+                    <td>{{ stock_data.yesterday_close_price }}</td>
+                    <td>{{ stock_data.change }}</td>
+                    <td>{{ stock_data.change_rate }}</td>
+                    <td>{{ stock_data.updated_time }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</body>
+</html>
